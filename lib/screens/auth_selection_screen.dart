@@ -79,6 +79,7 @@ class _AuthSelectionScreenState extends State<AuthSelectionScreen> {
                   '회원가입',
                   style: TextStyle(
                     decoration: TextDecoration.underline,
+                    decorationColor: Color.fromARGB(255, 7, 3, 114),
                     color: Colors.blue, // Make it visually look like a link
                   ),
                 ),

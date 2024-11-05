@@ -1,4 +1,5 @@
 import 'package:discussion_app/screens/auth_selection_screen.dart';
+import 'package:discussion_app/screens/home.dart';
 import 'package:flutter/material.dart';
 import 'package:discussion_app/styles.dart';
 import 'package:flutter/services.dart';
@@ -46,7 +47,7 @@ class MyApp extends StatelessWidget {
         ),
         useMaterial3: true,
       ),
-      home: const AuthSelectionScreen(),
+      home: const Home(), //const AuthSelectionScreen(),
     );
   }
 }
