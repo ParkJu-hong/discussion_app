@@ -27,6 +27,12 @@ class _HomeState extends State<Home> {
       appBar: AppBar(
         toolbarHeight: MediaQuery.of(context).size.height * 0.08,
         backgroundColor: backgroundColor,
+        actions: [
+          IconButton(
+            onPressed: () {},
+            icon: const Icon(Icons.person),
+          ),
+        ],
       ),
       body: Stack(
         children: [
