@@ -1,6 +1,7 @@
 import 'package:discussion_app/screens/discussion_detail_opinion.dart';
 import 'package:flutter/material.dart';
 import 'package:discussion_app/styles.dart';
+import 'dart:math';
 
 String lorem =
     "중앙선거관리위원회는 대통령이 임명하는 3인, 국회에서 선출하는 3인과 대법원장이 지명하는 3인의 위원으로 구성한다. 위원장은 위원중에서 호선한다.\n\n"
@@ -23,14 +24,18 @@ class DiscussionDetail extends StatefulWidget {
 
 class _DiscussionDetailState extends State<DiscussionDetail> {
   final ScrollController _scrollController = ScrollController();
-  final List<Map<String, String>> _opinionCards = List.generate(
+  final List<Map<String, dynamic>> _opinionCards = List.generate(
     20,
     (index) => {
       'date': 'Date $index',
       'user': 'user $index',
       'content': 'content $index',
+      'isItAgainst': Random().nextBool(),
     },
   );
+  final Map<String, bool> user = {
+    'role': true,
+  };
 
   @override
   Widget build(BuildContext context) {
@@ -69,12 +74,129 @@ class _DiscussionDetailState extends State<DiscussionDetail> {
                       user: _opinionCards[index]['user']!,
                       content: _opinionCards[index]['content']!,
                       comments: 6,
+                      isItAgainst: _opinionCards[index]['isItAgainst'],
                     );
                   },
                 ),
               ),
             ],
           ),
+          (user['role'] == true)
+              ? Positioned(
+                  left: MediaQuery.of(context).size.width * 0.04,
+                  top: MediaQuery.of(context).size.height * 0.74,
+                  child: GestureDetector(
+                    onTap: () {},
+                    child: Container(
+                      width: MediaQuery.of(context).size.width * 0.5,
+                      height: MediaQuery.of(context).size.height * 0.08,
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(12),
+                        color: Colors.white,
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.05),
+                            blurRadius: 10,
+                            offset: const Offset(0, 4),
+                          ),
+                        ],
+                        border: Border.all(
+                          width: 1,
+                          color: Colors.grey[300]!,
+                        ),
+                      ),
+                      padding: EdgeInsets.symmetric(
+                        vertical: MediaQuery.of(context).size.height * 0.015,
+                        horizontal: MediaQuery.of(context).size.width * 0.03,
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          // '차례 스킵' 텍스트
+                          Text(
+                            '차례 스킵',
+                            style: TextStyle(
+                              fontSize:
+                                  MediaQuery.of(context).size.height * 0.018,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.black87,
+                            ),
+                          ),
+                          SizedBox(
+                              width: MediaQuery.of(context).size.width * 0.03),
+                          // '가능 횟수' 텍스트
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 10, vertical: 4),
+                            decoration: BoxDecoration(
+                              color: Colors.grey[100],
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            child: Text(
+                              '가능 횟수: 2',
+                              style: TextStyle(
+                                fontSize:
+                                    MediaQuery.of(context).size.height * 0.016,
+                                fontWeight: FontWeight.w500,
+                                color: Colors.grey[700],
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                )
+              : const SizedBox.shrink(),
+          (user['role'] == true)
+              ? Positioned(
+                  left: MediaQuery.of(context).size.width * 0.72,
+                  top: MediaQuery.of(context).size.height * 0.75,
+                  child: GestureDetector(
+                    onTap: () {},
+                    child: Container(
+                      width: MediaQuery.of(context).size.width * 0.25,
+                      height: MediaQuery.of(context).size.height * 0.07,
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(16),
+                        color: Colors.white,
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.1),
+                            blurRadius: 8,
+                            offset: const Offset(0, 3),
+                          ),
+                        ],
+                        border: Border.all(
+                          width: 1,
+                          color: Colors.grey[300]!,
+                        ),
+                      ),
+                      padding: EdgeInsets.symmetric(
+                        vertical: MediaQuery.of(context).size.height * 0.012,
+                        horizontal: MediaQuery.of(context).size.width * 0.04,
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          // '의견 작성' 텍스트
+                          Text(
+                            '의견 작성',
+                            style: TextStyle(
+                              fontSize:
+                                  MediaQuery.of(context).size.height * 0.017,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.black87,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                )
+              : const SizedBox.shrink(),
         ],
       ),
     );
@@ -86,6 +208,7 @@ class OpinionCard extends StatelessWidget {
   final String content;
   final String date;
   final int comments;
+  final bool isItAgainst;
 
   const OpinionCard({
     super.key,
@@ -93,6 +216,7 @@ class OpinionCard extends StatelessWidget {
     required this.content,
     required this.date,
     required this.comments,
+    required this.isItAgainst,
   });
 
   @override
@@ -113,8 +237,12 @@ class OpinionCard extends StatelessWidget {
           },
           child: Card(
             elevation: 3,
+            shadowColor: isItAgainst ? Colors.red : Colors.green,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(16),
+              side: BorderSide(
+                color: isItAgainst ? Colors.red : Colors.green,
+              ),
             ),
             child: Container(
               width: MediaQuery.of(context).size.width * 0.92,

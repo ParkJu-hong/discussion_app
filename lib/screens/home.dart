@@ -1,3 +1,4 @@
+import 'package:discussion_app/screens/discussion_detail.dart';
 import 'package:flutter/material.dart';
 import 'package:discussion_app/styles.dart';
 
@@ -213,7 +214,10 @@ class InfoCard extends StatelessWidget {
         ),
         GestureDetector(
           onTap: () {
-            // Handle card click action
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const DiscussionDetail()),
+            );
           },
           child: Card(
             elevation: 3,
