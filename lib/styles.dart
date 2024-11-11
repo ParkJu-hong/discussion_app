@@ -136,7 +136,7 @@ const Color borderColor = Color(0xFFE0E0E0);         // 경계 색상
   토론 상세화면: discussion_detail_screen.dart
   투표 화면: vote_screen.dart
   타임라인 및 토론 흐름 정리: timeline_overview_screen.dart
-  토론 요약화면: discussion_summary_screen.dart
+  토론 요약화면: discussion_summary.dart
   참여 성과 및 보상 화면: participation_rewards_screen.dart
   AI 토론 화면: ai_discussion_screen.dart
   내 정보: profile_screen.dart
