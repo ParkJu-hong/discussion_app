@@ -1,6 +1,7 @@
 import 'package:discussion_app/screens/discussion_detail_opinion.dart';
 import 'package:flutter/material.dart';
 import 'package:discussion_app/styles.dart';
+import 'package:discussion_app/screens/writeopinion.dart';
 import 'dart:math';
 
 String lorem =
@@ -154,7 +155,17 @@ class _DiscussionDetailState extends State<DiscussionDetail> {
                   left: MediaQuery.of(context).size.width * 0.72,
                   top: MediaQuery.of(context).size.height * 0.75,
                   child: GestureDetector(
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const WriteOpinion(
+                            isDiscussionOpinion: true,
+                            isReferencingAnotherOpinion: false,
+                          ),
+                        ),
+                      );
+                    },
                     child: Container(
                       width: MediaQuery.of(context).size.width * 0.25,
                       height: MediaQuery.of(context).size.height * 0.07,

@@ -174,7 +174,6 @@ class _DiscussionDetailOpinionState extends State<DiscussionDetailOpinion> {
                   top: MediaQuery.of(context).size.height * 0.75,
                   child: GestureDetector(
                     onTap: () {
-                      // push가 안됨.
                       Navigator.push(
                         context,
                         MaterialPageRoute(
