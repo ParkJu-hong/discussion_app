@@ -1,4 +1,5 @@
 import 'package:discussion_app/screens/discussion_detail.dart';
+import 'package:discussion_app/screens/writeopinion.dart';
 import 'package:flutter/material.dart';
 import 'package:discussion_app/styles.dart';
 import 'dart:math';
@@ -102,7 +103,9 @@ class _DiscussionDetailOpinionState extends State<DiscussionDetailOpinion> {
                   left: MediaQuery.of(context).size.width * 0.04,
                   top: MediaQuery.of(context).size.height * 0.74,
                   child: GestureDetector(
-                    onTap: () {},
+                    onTap: () {
+                      // 차례 스킵
+                    },
                     child: Container(
                       width: MediaQuery.of(context).size.width * 0.5,
                       height: MediaQuery.of(context).size.height * 0.08,
@@ -170,7 +173,18 @@ class _DiscussionDetailOpinionState extends State<DiscussionDetailOpinion> {
                   left: MediaQuery.of(context).size.width * 0.72,
                   top: MediaQuery.of(context).size.height * 0.75,
                   child: GestureDetector(
-                    onTap: () {},
+                    onTap: () {
+                      // push가 안됨.
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const WriteOpinion(
+                            isDiscussionOpinion: true,
+                            isReferencingAnotherOpinion: false,
+                          ),
+                        ),
+                      );
+                    },
                     child: Container(
                       width: MediaQuery.of(context).size.width * 0.25,
                       height: MediaQuery.of(context).size.height * 0.07,
@@ -197,7 +211,6 @@ class _DiscussionDetailOpinionState extends State<DiscussionDetailOpinion> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          // '의견 작성' 텍스트
                           Text(
                             '의견 작성',
                             style: TextStyle(
