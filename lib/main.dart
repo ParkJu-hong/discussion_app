@@ -11,7 +11,7 @@ import 'package:flutter/services.dart';
 List<Map<String, dynamic>> timelineEvents = [
   {
     'id': 'event1',
-    'event_type': 'opinion_added',
+    'event_type': '1_opinion_added',
     'description': 'A new opinion was added.',
     'created_at': '2024-11-04 15:00',
     'user_id': 'user1',
@@ -23,7 +23,7 @@ List<Map<String, dynamic>> timelineEvents = [
     'sub_opinions': [
       {
         'id': 'sub1',
-        'event_type': 'opinion_added',
+        'event_type': 'sub1_opinion_added',
         'description': 'A new sub opinion was added.',
         'created_at': '2024-11-04 15:10',
         'user_id': 'user2',
@@ -91,7 +91,7 @@ List<Map<String, dynamic>> timelineEvents = [
     'event_type': 'opinion_added',
     'description': 'Opinion four was added.',
     'created_at': '2024-11-06 11:00',
-    'user_id': 'user4',
+    'user_id': 'user1',
     'is_agree': false,
     'comments': [
       {'content': 'Comment on event4.'},
@@ -121,7 +121,44 @@ List<Map<String, dynamic>> timelineEvents = [
     'comments': [
       {'content': 'Comment on event5.'},
     ],
-    'sub_opinions': [],
+    'sub_opinions': [
+      {
+        'id': 'event5_1',
+        'event_type': '5_1_opinion_added',
+        'description': 'Opinion five was added.',
+        'created_at': '2024-11-06 16:00',
+        'user_id': 'user5',
+        'is_agree': true,
+        'comments': [
+          {'content': 'Comment on event5.'},
+        ],
+        'sub_opinions': [],
+      },
+      {
+        'id': 'event5_2',
+        'event_type': '5_2_opinion_added',
+        'description': 'Opinion five was added.',
+        'created_at': '2024-11-06 16:00',
+        'user_id': 'user5',
+        'is_agree': true,
+        'comments': [
+          {'content': 'Comment on event5.'},
+        ],
+        'sub_opinions': [],
+      },
+      {
+        'id': 'event5_3',
+        'event_type': '5_3_opinion_added',
+        'description': 'Opinion five was added.',
+        'created_at': '2024-11-06 16:00',
+        'user_id': 'user5',
+        'is_agree': false,
+        'comments': [
+          {'content': 'Comment on event5.'},
+        ],
+        'sub_opinions': [],
+      },
+    ],
   }
 ];
 
@@ -171,7 +208,12 @@ class MyApp extends StatelessWidget {
       home: DiscussionTimeline(
         timelineEvents: timelineEvents,
         currentUserId: 'user1',
-      ), //const AuthSelectionScreen(),
+      ),
     );
   }
 }
+
+      // DiscussionTimeline(
+      //   timelineEvents: timelineEvents,
+      //   currentUserId: 'user1',
+      //const AuthSelectionScreen(),

@@ -18,6 +18,14 @@ class DiscussionTimeline extends StatefulWidget {
 class _DiscussionTimelineState extends State<DiscussionTimeline> {
   Set<String> expandedEvents = {};
 
+  @override
+  void initState() {
+    print("=========================================================");
+    List<Map<String, dynamic>> temp = widget.timelineEvents;
+    print("this.widget.timelineEvents test : $temp");
+    super.initState();
+  }
+
   void toggleExpanded(String eventId) {
     setState(() {
       if (expandedEvents.contains(eventId)) {
@@ -28,13 +36,13 @@ class _DiscussionTimelineState extends State<DiscussionTimeline> {
     });
   }
 
-  void navigateToSubOpinionsPage(Map<String, dynamic> event) {
+  void navigateToSubOpinionsPage(List<Map<String, dynamic>> event) {
     Navigator.push(
       context,
       MaterialPageRoute(
         builder: (context) => DiscussionTimeline(
           timelineEvents:
-              List<Map<String, dynamic>>.from(event['sub_opinions'] ?? []),
+              event ?? [], // List<Map<String, dynamic>>.from([event] ?? []),
           currentUserId: widget.currentUserId,
         ),
       ),
@@ -45,11 +53,14 @@ class _DiscussionTimelineState extends State<DiscussionTimeline> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('타임라인'),
         toolbarHeight: MediaQuery.of(context).size.height * 0.08,
-        backgroundColor: Colors.white,
-        elevation: 0,
-        iconTheme: const IconThemeData(color: Colors.black),
+        backgroundColor: backgroundColor,
+        actions: [
+          IconButton(
+            onPressed: () {},
+            icon: const Icon(Icons.person),
+          ),
+        ],
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -164,7 +175,9 @@ class _DiscussionTimelineState extends State<DiscussionTimeline> {
                                     height: MediaQuery.of(context).size.height *
                                         0.02),
                                 Text(
-                                  '하위 의견 및 댓글:',
+                                  event['sub_opinions'].length != 0
+                                      ? '의견 및 댓글:'
+                                      : '댓글',
                                   style: TextStyle(
                                     fontSize:
                                         MediaQuery.of(context).size.height *
@@ -173,12 +186,14 @@ class _DiscussionTimelineState extends State<DiscussionTimeline> {
                                     color: Colors.black87,
                                   ),
                                 ),
-                                ...List<Map<String, dynamic>>.from(
-                                        event['sub_opinions'] ?? [])
-                                    .map<Widget>((subOpinion) {
-                                  return GestureDetector(
-                                    onTap: () =>
-                                        navigateToSubOpinionsPage(subOpinion),
+                                if (event['sub_opinions'].length != 0)
+                                  GestureDetector(
+                                    onTap: () {
+                                      print("event['sub_opinions']");
+                                      print(event['sub_opinions']);
+                                      navigateToSubOpinionsPage(
+                                          event['sub_opinions']);
+                                    },
                                     child: Container(
                                       margin: EdgeInsets.only(
                                           top: MediaQuery.of(context)
@@ -192,11 +207,7 @@ class _DiscussionTimelineState extends State<DiscussionTimeline> {
                                         color: Colors.white,
                                         borderRadius: BorderRadius.circular(16),
                                         border: Border.all(
-                                          color: subOpinion['is_agree'] == null
-                                              ? Colors.grey
-                                              : (subOpinion['is_agree']
-                                                  ? Colors.green
-                                                  : Colors.red),
+                                          color: Colors.grey,
                                           width: 2,
                                         ),
                                       ),
@@ -205,8 +216,7 @@ class _DiscussionTimelineState extends State<DiscussionTimeline> {
                                             CrossAxisAlignment.start,
                                         children: [
                                           Text(
-                                            subOpinion['content'] ??
-                                                '하위 의견이 ${subOpinion['sub_opinions']?.length ?? 0}개 있습니다.',
+                                            '의견이 ${event['sub_opinions']?.length ?? 0}개 있습니다.',
                                             style: TextStyle(
                                               fontSize: MediaQuery.of(context)
                                                       .size
@@ -215,42 +225,10 @@ class _DiscussionTimelineState extends State<DiscussionTimeline> {
                                               color: Colors.black87,
                                             ),
                                           ),
-                                          if (expandedEvents
-                                              .contains(subOpinion['id'])) ...[
-                                            SizedBox(
-                                                height: MediaQuery.of(context)
-                                                        .size
-                                                        .height *
-                                                    0.01),
-                                            ...List<Map<String, dynamic>>.from(
-                                                    subOpinion['comments'] ??
-                                                        [])
-                                                .map<Widget>((comment) {
-                                              return Padding(
-                                                padding: EdgeInsets.only(
-                                                    left: MediaQuery.of(context)
-                                                            .size
-                                                            .width *
-                                                        0.05),
-                                                child: Text(
-                                                  '- ${comment['content'] ?? '댓글 내용이 없습니다.'}',
-                                                  style: TextStyle(
-                                                    fontSize:
-                                                        MediaQuery.of(context)
-                                                                .size
-                                                                .height *
-                                                            0.016,
-                                                    color: Colors.grey[700],
-                                                  ),
-                                                ),
-                                              );
-                                            }),
-                                          ]
                                         ],
                                       ),
                                     ),
-                                  );
-                                }),
+                                  ),
                                 SizedBox(
                                     height: MediaQuery.of(context).size.height *
                                         0.02),
